@@ -1,6 +1,6 @@
 <?php $__env->startSection('content'); ?>
-    <table class="table">
-        <thead class="thead-dark">
+    <table class="table" style=" margin:auto; margin-top: 3em; width:80%;">
+        <thead class="thead">
         <tr>
             <th scope="col">Id</th>
             <th scope="col">Nome</th>
@@ -63,7 +63,7 @@
                     </div>
                 </td>
                 <td><form method="get" action="/produto/<?php echo e($produto->id); ?>/destroy">
-                        <button class="button" type="submit">Excluir</button>
+                        <button class="btn btn-danger" type="submit">Excluir</button>
                     </form></td>
 
             </tr>

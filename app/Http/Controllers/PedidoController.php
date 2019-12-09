@@ -25,6 +25,20 @@ class PedidoController extends Controller
        return view('pedido.index',['clientes' => $clientes->sortBy('Nome')],['produtos' => $produtos]);
     }
 
+    public function lista($letra){
+        $nome=$letra.'%';
+        $clientes = Cliente::where('nome', 'like', $nome)->get();
+        $produtos=Produto::get();
+        return view('pedido.index',['clientes' => $clientes->sortBy('Nome')],['produtos' => $produtos]);
+
+    }
+
+    public function busca(Request $request){
+        $nome=$request->termo.'%';
+        $clientes = Cliente::where('nome', 'like', $nome)->get();
+        $produtos=Produto::get();
+        return view('pedido.index',['clientes' => $clientes->sortBy('Nome')],['produtos' => $produtos]);
+    }
     /**
      * Show the form for creating a new resource.
      *

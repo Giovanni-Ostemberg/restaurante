@@ -23,6 +23,23 @@ class ContaController extends Controller
         return view('conta.index',['clientes'=>$clientes->sortBy('Nome')],['contas'=>$contas]);
     }
 
+    public function lista($letra)
+    {
+        $nome=$letra.'%';
+        $clientes = Cliente::where('nome', 'like', $nome)->get();
+        $produtos = Produto::get();
+        $contas = Conta::get();
+        return view('conta.index',['clientes'=>$clientes->sortBy('Nome')],['contas'=>$contas]);
+    }
+
+    public function busca(Request $request){
+        $nome=$request->termo.'%';
+        $clientes = Cliente::where('nome', 'like', $nome)->get();
+        $produtos=Produto::get();
+        $contas = Conta::get();
+        return view('conta.index',['clientes'=>$clientes->sortBy('Nome')],['contas'=>$contas]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -62,12 +79,16 @@ class ContaController extends Controller
             ->where('conta_id',$conta->id)
             ->where('resta','>',0);
         $pagamentos = Pagamento::get()->where('conta_id',$conta->id);
+        $itens = array();
         foreach ($pedidos as $pedido){
             $controller = new PedidoController();
             $itens[]=$controller->itens($pedido->id);
         }
-
+        if($itens!=null){
         return view('conta.show',['cliente' =>$cliente,'conta' => $conta,'pedidos' => $pedidos, 'itens'=>$itens, 'pagamentos'=>$pagamentos]);
+        }else{
+            return view('conta.show',['cliente' =>$cliente,'conta' => $conta,'pedidos' => $pedidos, 'itens'=>"Não há pedidos a serem exibidos", 'pagamentos'=>$pagamentos]);
+        }
 
     }
 
@@ -78,6 +99,26 @@ class ContaController extends Controller
         $pedidos = Pedido::get()
             ->where('conta_id',$conta->id);
         $pagamentos = Pagamento::get()->where('conta_id',$conta->id);
+        $itens = array();
+        foreach ($pedidos as $pedido){
+            $controller = new PedidoController();
+            $itens[]=$controller->itens($pedido->id);
+        }
+
+        return view('conta.show',['cliente' =>$cliente,'conta' => $conta,'pedidos' => $pedidos, 'itens'=>$itens, 'pagamentos'=>$pagamentos]);
+
+    }
+
+    public function showData($id, Request $request)
+    {
+
+        $cliente = Cliente::findOrFail($id);
+        $conta = Conta::findOrFail($cliente->conta_id);
+        $pedidos = Pedido::get()
+            ->where('conta_id',$conta->id)
+            ->whereBetween('created_at',[$request->dataInicial,$request->dataFinal]);
+        $pagamentos = Pagamento::get()->where('conta_id',$conta->id);
+        $itens = array();
         foreach ($pedidos as $pedido){
             $controller = new PedidoController();
             $itens[]=$controller->itens($pedido->id);

@@ -1,4 +1,4 @@
-@extends('conta/show')
+@extends('conta.index')
 <header>
     <style>
         .menu{

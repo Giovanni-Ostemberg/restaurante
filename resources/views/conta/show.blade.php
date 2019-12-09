@@ -1,94 +1,203 @@
 @extends('layout' )
-<?php $i=0 ?>
+<?php $i=0;
+$parcial=0;?>
 @section('content')
+    <head>
 
-    <div>
-        <h1 text-align="center">{{$cliente->Nome}}</h1>
-    </div>
-    <div style="margin: 3em auto;">
-        <table class="table table-bordered table-dark table-hover" style="width:60%; margin:auto;">
-            <thead>
-            <tr>
-                <th style="text-align: center;">Data</th>
-                <th style="text-align: center;">Itens</th>
-                <th style="text-align: center;">Total</th>
-                <th style="text-align: center;">Resta</th>
-                <th style="text-align: center;">Add</th>
-            </tr>
-            </thead>
-            <tbody>
-            <form action="/pagamento/parcial/{{$conta->id}}">
-                <input type="hidden" name="cliente" value="{{$cliente->id}}">
-                @foreach($pedidos as $pedido)
-                    @if($pedido->resta == 0)
-                        <tr class="table-success">
-                    @else
-                        @if($pedido->resta < $pedido->valorTotal )
-                            <tr class="table-warning">
+        <style>
+            .footer:hover{
+                cursor: pointer;
+            }
+            /*.cabecalho{
+                text-align: left;
+                font-family: 'Yeon Sung', cursive;
+                font-size: 3em;
+            }
+            td,th{
+                font-size: 1.5em;
+                font-family: 'Yeon Sung', cursive;
+                color:black;
+
+            }
+            .soma{
+                font-size: 1em;
+                height: 2em;
+            }
+            label{
+                margin: 0 1em;
+                font-size: 1em;
+                font-family: 'Yeon Sung', cursive;
+                color:black;
+            }
+            input{
+                font-family: 'Yeon Sung', cursive;
+
+            }
+            .links{
+                position:fixed; text-align: center; width:100%;
+                background-color: white;
+                margin:auto;
+                font-family: 'Yeon Sung', cursive;
+            }
+            links.button,links.a{
+                background-color: black;
+                color:black;
+                margin-right:3em;
+            }*/
+        </style>
+
+
+    </head>
+    @section('barra')
+    <nav class="links">
+        <div style="float:left;">
+        <a class="text-white h4 footer" href="/conta/showAll/{{$cliente->id}}">Todos</a>
+        <a class="text-white h4 footer" href="/conta/show/{{$cliente->id}}">Pendentes</a>
+        <a class="text-white h4 footer" data-toggle="modal" data-target="#modalPagamento">Últimos Pagamentos</a>
+        </div>
+        <div style="float:right">
+            <a data-toggle="modal" class="text-white h4 footer" data-target="#modalExemplo">Efetuar Pagamento</a></div>
+        </div>
+    </nav>
+    @endsection('barra')
+
+
+
+
+    <div style=" width:90%; margin: 3em auto; text-align:center; margin-top:100px;">
+
+        <form action="/conta/showData/{{$cliente->id}}">
+            <div class="input-group-prepend" style="text-align: center; color:black;">
+                <div class="input-group-prepend" >
+                    <label style="color:black;" class="font-effect-stonewash" id="button-addon1">Início</label>
+                </div>
+                <input style="text-align: center; color:black;" type="date" name="dataInicial"  class="form-control soma " aria-describedby="button-addon1">
+                <!--</div>
+                <div class="input-group-prepend font-effect-stonewash" style="text-align: center; color:black; width:20%;">-->
+                <div class="input-group-prepend" >
+                    <label style="color:black;" class="font-effect-stonewash" id="button-addon1">Fim</label>
+                </div>
+                <input style="text-align: center; color:black;" type="date" name="dataFinal"  class="form-control soma"  aria-describedby="button-addon1">
+                <button type="submit" class="font-effect-stonewash">Filtrar</button>
+            </div>
+            <!--<label for="dataInicial">Início</label><input type="date" name="dataInicial">
+            <label for="dataFinal">Fim</label><input type="date" name="dataFinal">-->
+
+        </form>
+        <div>
+            <table class="table  table-hover" style="width:100%; margin:auto;">
+                <thead>
+                <tr>
+                    <th colspan="2" class="cabecalho font-effect-stonewash">{{$cliente->Nome}}</th>
+                    <th colspan="2" class="cabecalho font-effect-stonewash" style="font-size: 2em;" >{{$cliente->telefone}}</th>
+                </tr>
+
+                <tr>
+                    <th style="text-align: center; width:20%;" class="font-effect-stonewash">Data</th>
+                    <th style="text-align: center; width:60%;" class="font-effect-stonewash">Itens</th>
+                    <th style="text-align: center; width:10%;" class="font-effect-stonewash">Total</th>
+                    <!-- <th style="text-align: center; visibility: hidden; width:5%;" class="font-effect-stonewash" aria-hidden="true">Resta</th>-->
+                    <th style="text-align: center; width:5%;" class="font-effect-stonewash">Add</th>
+                </tr>
+                </thead>
+                <tbody>
+                <form action="/pagamento/parcial/{{$conta->id}}">
+                    <input type="hidden" name="cliente" value="{{$cliente->id}}">
+                    @foreach($pedidos as $pedido)
+                        @if($pedido->resta == 0)
+                            <tr style="background-color:    #CCFFD0;" class="table-hover">
                         @else
-                            <tr class="table-danger">
-                                @endif
-                                @endif
-                                <td scope="col" style="text-align: center; color:black;">{{ \Carbon\Carbon::parse($pedido->created_at)->format('d/m/Y')}}</td>
-                                <td scope="col" style="text-align: center; color:black;">{{$itens[$i]}}</td>
-                                <td scope="col" style="text-align: center; color:black;">{{$pedido->valorTotal}}</td>
-                                <td scope="col" style="text-align: center; color:black;">{{$pedido->resta}}</td>
-                                <td scope="col" style="text-align: center; color:black;"><input type="checkbox" value="{{$pedido->id}}" id="parcial{{$pedido->id}}" name="pedido[]" onClick="somaPedido({{$pedido->resta}},'parcial{{$pedido->id}}')"></td>
+                            @if($pedido->resta < $pedido->valorTotal )
+                                <tr class="table-warning">
+                            @else
+                                <tr class="table-danger">
+                                    @endif
+                                    @endif
+                                    <td scope="col" style="text-align: center; color:black; width:20%;" >{{ \Carbon\Carbon::parse($pedido->created_at)->format('d/m/Y')}}</td>
+                                    <td scope="col" style="text-align: center; color:black; width:50%;" >{{$itens[$i]}}</td>
+                                    <td scope="col" style="text-align: center; color:black; width:20%;" class="font-effect-stonewash">{{money_format ( "R$ %n" , $pedido->valorTotal)}}</td>
+                                <!-- <td  scope="col" style="text-align: center; color:black;">{{$pedido->resta}}</td>-->
 
-                                <?php $i++ ?>
-                            </tr>
-                            @endforeach
+                                    <p hidden>{{$parcial+=$pedido->resta}}</p>
+                                    @if($pedido->resta == 0)
+                                        <td scope="col" style="text-align: center; color:black; width:20%;" class="font-effect-stonewash">Pago</td>
+                                    @else
 
-                            <tr>
-                                <th style="text-align: center;">Valor Total</th>
-                                <td style="text-align: center;">{{$conta->saldoTotal}}</td>
-                                <td>Parcial</td>
-                                <td><input type="text" id="parcial" name="somaParcial" value="0"></td>
-                                <td><button type="submit">Pagar Parcial</button></td>
-                            </tr>
-            </form>
-            </tbody>
-        </table>
-        Adicionar a opção de totalizar os pedidos abertos até uma data específica
+                                        <td scope="col" style="text-align: center; color:black; width:5%;" >
+                                            <div class="btn-group-toggle" data-toggle="checkbox">
+                                                <label class="btn btn-primary active" style="background-color: #49B35D;" onClick="mudarCor(this,'parcial{{$pedido->id}}')">
+                                                    <input type="checkbox" checked value="{{$pedido->id}}" id="parcial{{$pedido->id}}" name="pedido[]" onClick="somaPedido({{$pedido->resta}},'parcial{{$pedido->id}}')"> Pagar
+                                                </label>
+                                            </div>
+                                        @endif
+                                        <!--<td scope="col" style="text-align: center; color:black;"><input type="checkbox" checked value="{{$pedido->id}}" id="parcial{{$pedido->id}}" name="pedido[]" onload="somaPedido({{$pedido->resta}},'parcial{{$pedido->id}}')" onClick="somaPedido({{$pedido->resta}},'parcial{{$pedido->id}}')"></td>-->
+
+                                        <?php $i++ ?>
+                                </tr>
+                                @endforeach
+
+                                <tr>
+                                    <th scope="col" style="text-align: center;" class="font-effect-stonewash">Valor Total</th>
+                                    <td scope="col" style="text-align: center;" class="font-effect-stonewash">{{money_format ( "R$ %n" , $conta->saldoTotal)}}</td>
+                                    <!--<td scope="col" class="font-effect-stonewash">Parcial</td>-->
+                                    <td scope="col" colspan="2" style="text-align: center; color:black; width:5%;" class="font-effect-stonewash">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <button style="color:black;" class="btn btn-outline-secondary" type="submit" id="button-addon1">Pagar</button>
+                                            </div>
+                                            <input style="text-align: center; color:black;" type="text"  id="parcial"  value="{{$parcial}}"  name="somaParcial" class="form-control soma" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                        </div></td>
+                                </tr>
+                </form>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div>
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            Últimos Pagamentos
-        </button>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
-            Efetuar Pagamento
-        </button>
-        <div class="collapse" id="collapseExample">
-            <div class="card card-body">
-                <table class="table table-bordered table-dark table-hover" style="width:60%; margin:auto;">
 
-                    @foreach($pagamentos as $pagamento)
-                        <form action="/pagamento/{{$pagamento->id}}/destroy">
-                            <tr class="table-success">
-                                <td scope="col" style="text-align: center; color:black;">{{ \Carbon\Carbon::parse($pagamento->created_at)->format('d/m/Y')}}</td>
-                                <td scope="col" style="text-align: center; color:black;">{{$pagamento->valor}}</td>
-                            </tr>
-                        </form>
-                    @endforeach
-                </table>
+    <!-- Modal Pagamento-->
+    <div class="modal fade" id="modalPagamento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="text-align:center;">
+                    <h5 class="modal-title" style="text-align:center; margin:auto; color:#3EA001; font-family: 'Yeon Sung', cursive" id="exampleModalLabel" class=" ">Últimos Pagamentos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table shadow p-3 mb-5 bg-white rounded table-hover" style="width:100%; margin:0;">
 
+                        @foreach($pagamentos as $pagamento)
+                            <form action="/pagamento/{{$pagamento->id}}/destroy">
+                                <tr style="color:#81FF62;">
+                                    <td scope="col" style="text-align: center; color:#3EA001;">{{ \Carbon\Carbon::parse($pagamento->created_at)->format('d/m/Y')}}</td>
+                                    <td scope="col" style="text-align: center; color:#3EA001;">{{money_format ( "R$ %n" , $pagamento->valor)}}</td>
+                                </tr>
+                            </form>
+                        @endforeach
+                    </table>
+
+                </div>
             </div>
         </div>
+        <div class="card card-body">
 
+        </div>
     </div>
+
+
 
     <!-- Modal -->
     <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Título do modal</h5>
+                    <h5 class="modal-title font-effect-stonewash" id="exampleModalLabel" class=" ">Pagamento</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <h1>Cliente: {{$cliente->Nome}}</h1>
                     <form action="/pagamento/store/{{$conta ->id}}">
                         <input type="text" class="form-control" name="pagamento" value="0.00">
                         <input type="hidden" name="cliente" value="{{$cliente->id}}">
@@ -103,6 +212,16 @@
         </div>
     </div>
     <script>
+        function mudarCor(botao, name) {
+            var linha = document.getElementById(name);
+            if(linha.checked) {
+                botao.style.backgroundColor = '#49B35D';
+            }else{
+                botao.style.backgroundColor = '#B35B6A';
+                botao.style.color = 'white';
+            }
+        }
+
         function somaPedido(valor, name){
             var linha = document.getElementById(name);
             var total = parseFloat(document.getElementById('parcial').value);
@@ -119,6 +238,7 @@
             }
             document.getElementById('parcial').value = total;
         }
+
 
     </script>
 

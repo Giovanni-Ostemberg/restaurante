@@ -1,14 +1,116 @@
-<?php $__env->startSection('content'); ?>
-    <div>
-        <h1 text-align="center">Clientes</h1>
-    </div>
-    <?php $__currentLoopData = $clientes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cliente): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <div class="list-group">
-            <button type="button" class="list-group-item list-group-item-action list-group-item-dark" style="text-align: center; background-color:" data-toggle="modal" data-target="#modalPedido<?php echo e($cliente->id); ?>">
-                <?php echo e($cliente->Nome); ?>
+<header>
+    <style>
+        .menu{
+            margin-top:3em;
+            float:left;
+            margin-left: 0;
+            width:10%;
+        }
+        .menu ul{
+            list-style:none;
+            border:1px solid #c0c0c0;
+        }
 
-            </button>
-        </div>
+        .menu a{
+            font-family: 'Yeon Sung', cursive;
+            text-decoration: none;
+            color:black;
+        }
+
+        .menu li{
+            border-right:1px solid #c0c0c0;
+            width:100%;
+
+        }
+
+        .lista{
+            margin-top:3em;
+            float:right;
+            width:90%;
+
+
+        }
+        .lista ul{
+            list-style: none;
+            width:100%;
+            text-align:center;
+            font-family: 'Yeon Sung', cursive;
+            font-size: 2em;
+            padding: 0;
+
+        }
+
+        .lista li{
+            border-bottom: solid #6cb2eb;
+
+        }
+        .lista li:hover{
+            background-color: #6cb2eb;
+            color:white;
+        }
+
+        .busca{
+            width:100%;
+            text-align:center;
+            text-align:center;
+
+        }
+
+        .busca input{
+            width:50%;
+            margin-right: 1em;
+            border-radius: 15px;
+            border-color: #6cb2eb;
+            text-align: center;
+        }
+
+
+    </style>
+</header>
+<?php $__env->startSection('content'); ?>
+    <div class="menu">
+        <nav>
+            <ul>
+                <li><a href="/pedido/lista/A">A</a></li>
+                <li><a href="/pedido/lista/B">B</a></li>
+                <li><a href="/pedido/lista/C">C</a></li>
+                <li><a href="/pedido/lista/D">D</a></li>
+                <li><a href="/pedido/lista/E">E</a></li>
+                <li><a href="/pedido/lista/F">F</a></li>
+                <li><a href="/pedido/lista/G">G</a></li>
+                <li><a href="/pedido/lista/H">H</a></li>
+                <li><a href="/pedido/lista/I">I</a></li>
+                <li><a href="/pedido/lista/J">J</a></li>
+                <li><a href="/pedido/lista/K">K</a></li>
+                <li><a href="/pedido/lista/L">L</a></li>
+                <li><a href="/pedido/lista/M">M</a></li>
+                <li><a href="/pedido/lista/N">N</a></li>
+                <li><a href="/pedido/lista/O">O</a></li>
+                <li><a href="/pedido/lista/P">P</a></li>
+                <li><a href="/pedido/lista/Q">Q</a></li>
+                <li><a href="/pedido/lista/R">R</a></li>
+                <li><a href="/pedido/lista/S">S</a></li>
+                <li><a href="/pedido/lista/T">T</a></li>
+                <li><a href="/pedido/lista/U">U</a></li>
+                <li><a href="/pedido/lista/V">V</a></li>
+                <li><a href="/pedido/lista/W">W</a></li>
+                <li><a href="/pedido/lista/X">X</a></li>
+                <li><a href="/pedido/lista/Y">Y</a></li>
+                <li><a href="/pedido/lista/Z">Z</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="lista">
+        <div class="busca"><form action="/pedido/busca"><input type="text" name="termo"> <button class="btn btn-primary" type="submit>">Buscar</button></form></div>
+    <div>
+        <h1 text-align="center" style="background-color: #3490dc;">Clientes</h1>
+    </div>
+        <ul>
+    <?php $__currentLoopData = $clientes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cliente): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
+            <li data-toggle="modal" data-target="#modalPedido<?php echo e($cliente->id); ?>"  style="cursor:pointer;"><?php echo e($cliente->Nome); ?></li>
+
+
         <div class="modal fade" id="modalPedido<?php echo e($cliente->id); ?>" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -26,11 +128,12 @@
                             <div class="input-group mb-3">
                                 <table id="tabela<?php echo e($cliente->id); ?>">
                                     <tr>
-                                        <td style="width:45%;">
-                                            <select class="form-control" id="produto0_<?php echo e($cliente->id); ?>" name="produto_id[]" onchange="sincronizaPreco('produto0_<?php echo e($cliente->id); ?>',<?php echo e($produtos); ?>,'preco0_<?php echo e($cliente->id); ?>'),calcularValor('quantidade0_<?php echo e($cliente->id); ?>','preco0_<?php echo e($cliente->id); ?>','linha0_<?php echo e($cliente->id); ?>', 'tabela<?php echo e($cliente->id); ?>','valorFinal<?php echo e($cliente->id); ?>',<?php echo e($cliente->id); ?>)">
+                                        <td style="width:45%;" >
+                                            <select class="form-control" id="produto0_<?php echo e($cliente->id); ?>"name="produto_id[]" onchange="sincronizaPreco('produto0_<?php echo e($cliente->id); ?>',<?php echo e($produtos); ?>,'preco0_<?php echo e($cliente->id); ?>'),calcularValor('quantidade0_<?php echo e($cliente->id); ?>','preco0_<?php echo e($cliente->id); ?>','linha0_<?php echo e($cliente->id); ?>', 'tabela<?php echo e($cliente->id); ?>','valorFinal<?php echo e($cliente->id); ?>',<?php echo e($cliente->id); ?>)">
                                                 <?php $__currentLoopData = $produtos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $produto): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <option value="<?php echo e($produto->id); ?>"  onclick="sincronizaPreco('<?php echo e($produto->preco); ?>', 'preco0_<?php echo e($cliente->id); ?>')"><?php echo e($produto->nome); ?></option>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    <option selected>Escolha</option>
                                             </select>
 
                                         </td>
@@ -66,7 +169,10 @@
             </div>
         </div>
 
+
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </ul>
+    </div>
 
     <script language="JavaScript">
         function inserirNovo(idTabela, id){
@@ -77,7 +183,7 @@
             cell0.innerHTML='<select class="form-control" id="produto'+numOfRows+'_'+id+'" name="produto_id[]" onchange="sincronizaPreco(\'produto'+numOfRows+'_'+id+'\',<?php echo e($produtos); ?>,\'preco'+numOfRows+'_'+id+'\'),calcularValor(\'quantidade'+numOfRows+'_'+id+'\',\'preco'+numOfRows+'_'+id+'\',\'linha'+numOfRows+'_'+id+'\', \'tabela'+id+'\',\'valorFinal'+id+'\','+id+')">\n' +
                 '                                                <?php $__currentLoopData = $produtos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $produto): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>\n' +
                 '                                                    <option value="<?php echo e($produto->id); ?>"  onclick="sincronizaPreco(\'<?php echo e($produto->preco); ?>\', \'preco0_'+id+'\')"><?php echo e($produto->nome); ?></option>\n' +
-                '                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>\n' +
+                '                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>\n' + '<option selected>Escolha</option>'+
                 '                                            </select>';
             var cell1 = newRow.insertCell(1);
             cell1.innerHTML='<input type="text " class="form-control" id="preco'+numOfRows+'_'+id+'" name="produto_preco[]" onchange="calcularValor(\'quantidade'+numOfRows+'_'+id+'\',\'preco'+numOfRows+'_'+id+'\',\'linha'+numOfRows+'_'+id+'\', \'tabela'+id+'\',\'valorFinal'+id+'\','+id+')">\n';
@@ -88,7 +194,7 @@
             var cell4 = newRow.insertCell(4);
             var char = "'"
             var tabelaId = char.concat(idTabela, char);
-            cell4.innerHTML="<button  class=\"btn btn-primary rem\" style=\"width:80%;\" type=\"button\" class=\"btn btn-primary\" onclick=\"removerLinha(this,"+tabelaId+")\"> - </button>";
+            cell4.innerHTML="<button  class=\"btn btn-primary rem\" style=\"width:80%; float:right;\" type=\"button\" class=\"btn btn-primary\" onclick=\"removerLinha(this,"+tabelaId+")\"> - </button>";
 
 
 
