@@ -8,6 +8,9 @@ $parcial=0;?>
             .footer:hover{
                 cursor: pointer;
             }
+
+           
+            
             /*.cabecalho{
                 text-align: left;
                 font-family: 'Yeon Sung', cursive;
@@ -69,16 +72,16 @@ $parcial=0;?>
         <form action="/conta/showData/{{$cliente->id}}">
             <div class="input-group-prepend" style="text-align: center; color:black;">
                 <div class="input-group-prepend" >
-                    <label style="color:black;" class="font-effect-stonewash" id="button-addon1">Início</label>
+                    <label style="color:black;" id="button-addon1">Início</label>
                 </div>
                 <input style="text-align: center; color:black;" type="date" name="dataInicial"  class="form-control soma " aria-describedby="button-addon1">
                 <!--</div>
                 <div class="input-group-prepend font-effect-stonewash" style="text-align: center; color:black; width:20%;">-->
                 <div class="input-group-prepend" >
-                    <label style="color:black;" class="font-effect-stonewash" id="button-addon1">Fim</label>
+                    <label style="color:black;" id="button-addon1">Fim</label>
                 </div>
                 <input style="text-align: center; color:black;" type="date" name="dataFinal"  class="form-control soma"  aria-describedby="button-addon1">
-                <button type="submit" class="font-effect-stonewash">Filtrar</button>
+                <button type="submit">Filtrar</button>
             </div>
             <!--<label for="dataInicial">Início</label><input type="date" name="dataInicial">
             <label for="dataFinal">Fim</label><input type="date" name="dataFinal">-->
@@ -93,11 +96,11 @@ $parcial=0;?>
                 </tr>
 
                 <tr>
-                    <th style="text-align: center; width:20%;" class="font-effect-stonewash">Data</th>
-                    <th style="text-align: center; width:60%;" class="font-effect-stonewash">Itens</th>
-                    <th style="text-align: center; width:10%;" class="font-effect-stonewash">Total</th>
-                    <!-- <th style="text-align: center; visibility: hidden; width:5%;" class="font-effect-stonewash" aria-hidden="true">Resta</th>-->
-                    <th style="text-align: center; width:5%;" class="font-effect-stonewash">Add</th>
+                    <th style="text-align: center; width:20%;" >Data</th>
+                    <th style="text-align: center; width:60%;" >Itens</th>
+                    <th style="text-align: center; width:10%;" >Total</th>
+                    <!-- <th style="text-align: center; visibility: hidden; width:5%;"  aria-hidden="true">Resta</th>-->
+                    <th style="text-align: center; width:5%;" >Add</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -115,12 +118,12 @@ $parcial=0;?>
                                     @endif
                                     <td scope="col" style="text-align: center; color:black; width:20%;" >{{ \Carbon\Carbon::parse($pedido->created_at)->format('d/m/Y')}}</td>
                                     <td scope="col" style="text-align: center; color:black; width:50%;" >{{$itens[$i]}}</td>
-                                    <td scope="col" style="text-align: center; color:black; width:20%;" class="font-effect-stonewash">{{money_format ( "R$ %n" , $pedido->valorTotal)}}</td>
+                                    <td scope="col" style="text-align: center; color:black; width:20%;" >{{'R$ '.number_format($pedido->valorTotal, 2, ',', '.')}}</td>
                                 <!-- <td  scope="col" style="text-align: center; color:black;">{{$pedido->resta}}</td>-->
 
                                     <p hidden>{{$parcial+=$pedido->resta}}</p>
                                     @if($pedido->resta == 0)
-                                        <td scope="col" style="text-align: center; color:black; width:20%;" class="font-effect-stonewash">Pago</td>
+                                        <td scope="col" style="text-align: center; color:black; width:20%;" >Pago</td>
                                     @else
 
                                         <td scope="col" style="text-align: center; color:black; width:5%;" >
@@ -137,10 +140,10 @@ $parcial=0;?>
                                 @endforeach
 
                                 <tr>
-                                    <th scope="col" style="text-align: center;" class="font-effect-stonewash">Valor Total</th>
-                                    <td scope="col" style="text-align: center;" class="font-effect-stonewash">{{money_format ( "R$ %n" , $conta->saldoTotal)}}</td>
-                                    <!--<td scope="col" class="font-effect-stonewash">Parcial</td>-->
-                                    <td scope="col" colspan="2" style="text-align: center; color:black; width:5%;" class="font-effect-stonewash">
+                                    <th scope="col" style="text-align: center;" >Valor Total</th>
+                                    <td scope="col" style="text-align: center;" >{{'R$ '.number_format($pedido->valorTotal, 2, ',', '.')}}</td>
+                                    <!--<td scope="col" >Parcial</td>-->
+                                    <td scope="col" colspan="2" style="text-align: center; color:black; width:5%;">
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <button style="color:black;" class="btn btn-outline-secondary" type="submit" id="button-addon1">Pagar</button>
@@ -170,8 +173,8 @@ $parcial=0;?>
                         @foreach($pagamentos as $pagamento)
                             <form action="/pagamento/{{$pagamento->id}}/destroy">
                                 <tr style="color:#81FF62;">
-                                    <td scope="col" style="text-align: center; color:#3EA001;">{{ \Carbon\Carbon::parse($pagamento->created_at)->format('d/m/Y')}}</td>
-                                    <td scope="col" style="text-align: center; color:#3EA001;">{{money_format ( "R$ %n" , $pagamento->valor)}}</td>
+                                    <td scope="col" style="text-align: center; color:#3EA001;">{{ \Carbon\Carbon::parse($pagamento->dataPagamento)->format('d/m/Y')}}</td>
+                                    <td scope="col" style="text-align: center; color:#3EA001;">{{'R$ '.number_format($pagamento->valor, 2, ',', '.')}}</td>
                                 </tr>
                             </form>
                         @endforeach
@@ -192,7 +195,7 @@ $parcial=0;?>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title font-effect-stonewash" id="exampleModalLabel" class=" ">Pagamento</h5>
+                    <h5 class="modal-title" id="exampleModalLabel" class=" ">Pagamento</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                         <span aria-hidden="true">&times;</span>
                     </button>

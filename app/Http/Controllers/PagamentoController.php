@@ -6,6 +6,7 @@ use App\Pagamento;
 use App\Pedido;
 use Illuminate\Http\Request;
 
+
 class PagamentoController extends Controller
 {
     /**
@@ -14,10 +15,11 @@ class PagamentoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store($conta, Request $request)
-    {
+    {   
         $pagamento = new Pagamento();
         $pagamento->valor = $request -> pagamento;
         $pagamento->conta_id = $conta;
+        $pagamento->dataPagamento = time();
         $pagamento -> save();
 
         $conta1 = new ContaController();
@@ -30,9 +32,10 @@ class PagamentoController extends Controller
     }
 
     public function parcial($conta, Request $request)
-    {
+    {   
         $pagamento = new Pagamento();
         $pagamento->valor = $request -> somaParcial;
+        $pagamento->dataPagamento = date('Y-m-d H:i:s');
         $pagamento->conta_id = $conta;
 
         foreach ($request->pedido as $parcial){

@@ -18,7 +18,7 @@
             <tr>
                 <th scope="row">{{$produto -> id}}</th>
                 <td>{{$produto -> nome}}</td>
-                <td>{{money_format ( "R$ %n" , $produto -> preco)}}</td>
+                <td>{{'R$ '.number_format($produto -> preco, 2, ',', '.')}}</td>
                 <td>{{$produto -> categoria}}</td>
                 <td> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEdit{{$produto->id}}">
                         Editar

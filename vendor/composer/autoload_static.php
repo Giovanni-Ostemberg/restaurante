@@ -418,6 +418,7 @@ class ComposerStaticInit7e303ed922c4e1ce12acc9144ce02d0d
         'App\\Http\\Controllers\\ClienteController' => __DIR__ . '/../..' . '/app/Http/Controllers/ClienteController.php',
         'App\\Http\\Controllers\\ContaController' => __DIR__ . '/../..' . '/app/Http/Controllers/ContaController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\ItensController' => __DIR__ . '/../..' . '/app/Http/Controllers/ItensController.php',
         'App\\Http\\Controllers\\PagamentoController' => __DIR__ . '/../..' . '/app/Http/Controllers/PagamentoController.php',
         'App\\Http\\Controllers\\PedidoController' => __DIR__ . '/../..' . '/app/Http/Controllers/PedidoController.php',

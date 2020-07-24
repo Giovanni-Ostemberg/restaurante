@@ -13,6 +13,10 @@
     <link href="https://fonts.googleapis.com/css?family=Just+Another+Hand|Yeon+Sung&display=swap&effect=stonewash" rel="stylesheet">
     <link href="resources/css/pagina.css" rel="stylesheet">
     <style>
+
+        body{
+            background-image: url("https://www.publicdomainpictures.net/pictures/40000/velka/paper-texture-1359509235aJV.jpg");
+        }
         .principal{
             position:fixed;
             top:0;

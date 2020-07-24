@@ -19,6 +19,7 @@ return array(
     'App\\Http\\Controllers\\ClienteController' => $baseDir . '/app/Http/Controllers/ClienteController.php',
     'App\\Http\\Controllers\\ContaController' => $baseDir . '/app/Http/Controllers/ContaController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
+    'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
     'App\\Http\\Controllers\\ItensController' => $baseDir . '/app/Http/Controllers/ItensController.php',
     'App\\Http\\Controllers\\PagamentoController' => $baseDir . '/app/Http/Controllers/PagamentoController.php',
     'App\\Http\\Controllers\\PedidoController' => $baseDir . '/app/Http/Controllers/PedidoController.php',
