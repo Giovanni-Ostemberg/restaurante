@@ -19,7 +19,7 @@ class PagamentoController extends Controller
         $pagamento = new Pagamento();
         $pagamento->valor = $request -> pagamento;
         $pagamento->conta_id = $conta;
-        $pagamento->dataPagamento = time();
+        $pagamento->dataPagamento = date('Y-m-d H:i:s');
         $pagamento -> save();
 
         $conta1 = new ContaController();

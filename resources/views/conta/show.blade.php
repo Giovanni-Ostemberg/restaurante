@@ -9,6 +9,10 @@ $parcial=0;?>
                 cursor: pointer;
             }
 
+            body{
+                background-image: none;
+            }
+
            
             
             /*.cabecalho{
